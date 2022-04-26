@@ -1,0 +1,29 @@
+.post {
+  margin-bottom: 1rem;
+}
+
+.post img {
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+}
+
+.post .title {
+  font-size: 1.7rem;
+  margin-top: 10px;
+}
+
+.post .date {
+  text-align: center;
+  color: gray;
+  margin: 1rem 0;
+}
+
+.post .desc {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}

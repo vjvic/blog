@@ -7,12 +7,6 @@ const Post = require("../model/postModel");
 const getMyPost = asyncHandler(async (req, res) => {
   const post = await Post.find({ username: req.user.username });
 
-  //check current username
-  if (post.username !== req.user.username) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
-
   res.status(200).json(post);
 });
 
