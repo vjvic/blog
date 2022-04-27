@@ -18,14 +18,14 @@ const Post = ({
   const postDate = format(new Date(`${createdAt}`), "EEE MMMM dd yyyy");
 
   return (
-    <div className="post">
+    <article className="post">
       <img src={imgUrl} alt={title} />
-      <h3 className="title" onClick={() => navigate("/details")}>
+      <h3 className="title" onClick={() => navigate(`/details/${_id}`)}>
         {title}
       </h3>
       <p className="date">{postDate}</p>
       <p className="desc">{desc}</p>
-    </div>
+    </article>
   );
 };
 

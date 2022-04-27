@@ -7,6 +7,7 @@ import { User } from "../../interface/User";
 interface InitialState {
   postList: Post[];
   myPostList: Post[];
+  details: Post;
   isError: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -16,6 +17,7 @@ interface InitialState {
 const initialState: InitialState = {
   postList: [],
   myPostList: [],
+  details: { title: "", photo: "", username: "", desc: "", createdAt: "" },
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -92,10 +94,31 @@ export const createPost = createAsyncThunk<Post, Post, { state: RootState }>(
   }
 );
 
+export const getPostDetails = createAsyncThunk(
+  "post/getPostDetails",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(API_URL + id);
+
+      return response.data;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => initialState,
+  },
 
   extraReducers: (builder) => {
     builder
@@ -131,9 +154,23 @@ export const postSlice = createSlice({
       .addCase(createPost.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
+        state.isSuccess = true;
         state.myPostList.push(action.payload);
       })
       .addCase(createPost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getPostDetails.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getPostDetails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.details = action.payload;
+      })
+      .addCase(getPostDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -141,4 +178,5 @@ export const postSlice = createSlice({
   },
 });
 
+export const { reset } = postSlice.actions;
 export default postSlice.reducer;

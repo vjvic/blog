@@ -19,13 +19,6 @@
   margin-top: 40px;
 }
 
-.blog-photo {
-  height: 300px;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
 .image-placeholder {
   border: 2px dashed gray;
   height: 300px;

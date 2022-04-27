@@ -126,3 +126,15 @@ textarea {
   border-radius: 10px;
   font-weight: bold;
 }
+
+.blog-photo {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}

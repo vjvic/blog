@@ -1,0 +1,27 @@
+.blog-details {
+  margin-top: 40px;
+}
+
+.blog-details .title {
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.blog-details .author,
+.blog-details .date {
+  color: var(--primary-color);
+}
+
+.blog-details .username {
+  font-weight: bold;
+}
+
+.blog-details .desc {
+  margin: 1rem 0;
+}
+
+.blog-details .desc::first-letter {
+  font-size: 200%;
+  font-weight: bold;
+}

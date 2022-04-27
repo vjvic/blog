@@ -19,6 +19,7 @@ const Home = () => {
         {postList.map((post) => (
           <Post
             key={post._id}
+            _id={post._id}
             title={post.title}
             desc={post.desc}
             photo={post.photo}

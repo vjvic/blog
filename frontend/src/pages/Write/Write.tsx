@@ -1,17 +1,24 @@
 import "./write.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { createPost } from "../../features/post/postSlice";
-import { useAppDispatch /* , useAppSelector */ } from "../../app/hooks";
+import { createPost, reset } from "../../features/post/postSlice";
+import {
+  useAppDispatch /* , useAppSelector */,
+  useAppSelector,
+} from "../../app/hooks";
 /* import { RootState } from "../../app/store"; */
 import { Post } from "../../interface/Post";
+import { RootState } from "../../app/store";
+import { useNavigate } from "react-router-dom";
 
 const Write = () => {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState<File>();
 
-  /* const { myPostList } = useAppSelector((state: RootState) => state.post); */
+  const { isSuccess } = useAppSelector((state: RootState) => state.post);
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,6 +50,16 @@ const Write = () => {
 
     setFile(e.target.files[0]);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+    }
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [isSuccess, dispatch, navigate]);
 
   return (
     <section className="write">

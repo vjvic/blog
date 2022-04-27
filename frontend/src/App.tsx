@@ -24,7 +24,7 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/details" element={<BlogDetails />} />
+        <Route path="/details/:id" element={<BlogDetails />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
