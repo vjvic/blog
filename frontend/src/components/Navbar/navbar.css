@@ -28,6 +28,11 @@ header a:hover {
   list-style: none;
 }
 
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .avatar {
   vertical-align: middle;
   width: 50px;
@@ -41,4 +46,23 @@ header a:hover {
 .active a {
   color: var(--primary-color);
   border-bottom: 1px solid var(--primary-color);
+}
+
+.signin {
+  margin-left: auto;
+  display: block;
+  cursor: pointer;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  background: none;
+
+  transition: all 0.3s ease;
+}
+
+.signin:hover {
+  background: var(--primary-color);
+  color: #fff;
 }

@@ -69,7 +69,7 @@ const Write = () => {
             placeholder="Title"
             name="title"
             value={title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTitle(e.target.value)
             }
           />
@@ -77,8 +77,8 @@ const Write = () => {
             placeholder="Tell your story..."
             name="desc"
             value={desc}
-            onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>): void =>
-              setDesc(ev.target.value)
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setDesc(e.target.value)
             }
           ></textarea>
           <button className="btn">Publish</button>

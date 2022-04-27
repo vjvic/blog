@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../app/store";
 import { Post } from "../../interface/Post";
+import { User } from "../../interface/User";
 
 interface InitialState {
   postList: Post[];
@@ -42,38 +43,35 @@ export const getAllPost = createAsyncThunk(
   }
 );
 
-export const getMyPost = createAsyncThunk(
-  "post/getMyPost",
-  async (_, { getState, rejectWithValue }) => {
-    try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNjNiOTJiZDhlY2Y3MmNlYTlkOTk4MyIsImlhdCI6MTY1MDg1OTE3NywiZXhwIjoxNjUzNDUxMTc3fQ.s648cVBQu2IMcnt7gsNnW3YZMDH1rww9_jG5r1-nUNQ";
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.get(API_URL + "mypost", config);
+export const getMyPost = createAsyncThunk<
+  Post[],
+  undefined,
+  { state: RootState }
+>("post/getMyPost", async (_, { getState, rejectWithValue }) => {
+  try {
+    const token = getState().auth.user!.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get(API_URL + "mypost", config);
 
-      return response.data;
-    } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return rejectWithValue(message);
-    }
+    return response.data;
+  } catch (error: any) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return rejectWithValue(message);
   }
-);
+});
 
-export const createPost = createAsyncThunk(
+export const createPost = createAsyncThunk<Post, Post, { state: RootState }>(
   "post/createPost",
   async (post: Post, { getState, rejectWithValue }) => {
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNjNiOTJiZDhlY2Y3MmNlYTlkOTk4MyIsImlhdCI6MTY1MDg1OTE3NywiZXhwIjoxNjUzNDUxMTc3fQ.s648cVBQu2IMcnt7gsNnW3YZMDH1rww9_jG5r1-nUNQ";
+      const token = getState().auth.user!.token;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -142,7 +140,5 @@ export const postSlice = createSlice({
       });
   },
 });
-
-/* export const selectAllPost = (state: RootState) => state.; */
 
 export default postSlice.reducer;

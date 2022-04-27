@@ -1,6 +1,9 @@
 import "./navbar.css";
 import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
+import { logout } from "../../features/auth/authSlice";
 
 const navItems = [
   {
@@ -22,6 +25,10 @@ const navItems = [
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state: RootState) => state.auth);
 
   const activePath = location.pathname;
 
@@ -45,11 +52,20 @@ const Navbar = () => {
         </nav>
 
         <div>
-          <img
-            className="avatar"
-            src="https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="profile"
-          />
+          {user ? (
+            <div className="avatar-wrapper">
+              <img
+                className="avatar"
+                src={"http://localhost:5000/images/" + user.profilePic}
+                alt="profile"
+              />
+              <button onClick={() => dispatch(logout())}>Logout</button>
+            </div>
+          ) : (
+            <button className="signin" onClick={() => navigate("/signin")}>
+              Signin
+            </button>
+          )}
         </div>
       </div>
     </header>
