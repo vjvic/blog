@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { logout } from "../../features/auth/authSlice";
+import { FiLogOut } from "react-icons/fi";
 
 const navItems = [
   {
@@ -59,7 +60,9 @@ const Navbar = () => {
                 src={"http://localhost:5000/images/" + user.profilePic}
                 alt="profile"
               />
-              <button onClick={() => dispatch(logout())}>Logout</button>
+              <button onClick={() => dispatch(logout())} className="logout">
+                <FiLogOut size={28} />
+              </button>
             </div>
           ) : (
             <button className="signin" onClick={() => navigate("/signin")}>

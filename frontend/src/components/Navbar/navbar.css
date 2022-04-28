@@ -66,3 +66,9 @@ header a:hover {
   background: var(--primary-color);
   color: #fff;
 }
+
+.logout {
+  cursor: pointer;
+  border: none;
+  background: none;
+}

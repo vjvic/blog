@@ -6,12 +6,14 @@ import { getMyPost } from "../../features/post/postSlice";
 import "./myBlog.css";
 
 const MyBlog = () => {
-  const { myPostList } = useAppSelector((state: RootState) => state.post);
+  const { myPostList, isLikeSuccess } = useAppSelector(
+    (state: RootState) => state.post
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getMyPost());
-  }, [dispatch]);
+  }, [dispatch, isLikeSuccess]);
 
   return (
     <section className="my-blog">
@@ -19,6 +21,7 @@ const MyBlog = () => {
         {myPostList.map((post) => (
           <Post
             key={post._id}
+            _id={post._id}
             title={post.title}
             desc={post.desc}
             photo={post.photo}
