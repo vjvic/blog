@@ -5,4 +5,5 @@ export interface Post {
   photo: string;
   username?: string;
   createdAt?: string;
+  like?: [string];
 }

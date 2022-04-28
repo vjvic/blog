@@ -24,6 +24,7 @@ const MyBlog = () => {
             photo={post.photo}
             createdAt={post.createdAt}
             username={post.username}
+            like={post.like}
           />
         ))}
       </div>

@@ -6,12 +6,14 @@ import { Post } from "../../components";
 import "./home.css";
 
 const Home = () => {
-  const { postList } = useAppSelector((state: RootState) => state.post);
+  const { postList, isLikeSuccess } = useAppSelector(
+    (state: RootState) => state.post
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getAllPost());
-  }, [dispatch]);
+  }, [dispatch, isLikeSuccess]);
 
   return (
     <section className="home">
@@ -25,6 +27,7 @@ const Home = () => {
             photo={post.photo}
             createdAt={post.createdAt}
             username={post.username}
+            like={post.like}
           />
         ))}
       </div>

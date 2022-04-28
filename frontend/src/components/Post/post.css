@@ -28,3 +28,9 @@
   -webkit-box-orient: vertical;
   white-space: normal;
 }
+
+.like-btn {
+  cursor: pointer;
+  border: none;
+  background: none;
+}

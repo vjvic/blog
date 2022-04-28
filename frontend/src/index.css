@@ -138,3 +138,9 @@ textarea {
   display: flex;
   justify-content: space-between;
 }
+
+.flex {
+  display: flex;
+  grid-gap: 1rem;
+  align-items: center;
+}

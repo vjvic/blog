@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../app/store";
 import { Post } from "../../interface/Post";
-import { User } from "../../interface/User";
 
 interface InitialState {
   postList: Post[];
@@ -11,16 +10,25 @@ interface InitialState {
   isError: boolean;
   isLoading: boolean;
   isSuccess: boolean;
+  isLikeSuccess: boolean;
   message: string | unknown;
 }
 
 const initialState: InitialState = {
   postList: [],
   myPostList: [],
-  details: { title: "", photo: "", username: "", desc: "", createdAt: "" },
+  details: {
+    title: "",
+    photo: "",
+    username: "",
+    desc: "",
+    createdAt: "",
+    like: [""],
+  },
   isError: false,
   isLoading: false,
   isSuccess: false,
+  isLikeSuccess: false,
   message: "",
 };
 
@@ -113,6 +121,31 @@ export const getPostDetails = createAsyncThunk(
   }
 );
 
+export const likePost = createAsyncThunk<string, string, { state: RootState }>(
+  "post/likePost",
+  async (id: string, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.user!.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.post(API_URL + "like", { id: id }, config);
+
+      return response.data;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -174,6 +207,21 @@ export const postSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(likePost.pending, (state) => {
+        state.isLoading = true;
+        state.isLikeSuccess = false;
+      })
+      .addCase(likePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isLikeSuccess = true;
+      })
+      .addCase(likePost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isLikeSuccess = false;
       });
   },
 });
